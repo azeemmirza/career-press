@@ -18,9 +18,9 @@ Text Domain:  career-press
 Domain Path:  /languages
 */
 require_once 'CareerPress.php';
-
+require_once 'CareerPressView.php';
 if(is_admin()){
 
 }else{
-	require_once 'CareerPressView.php';
+
 }
