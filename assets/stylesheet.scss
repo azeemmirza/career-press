@@ -1,0 +1,31 @@
+.careerpress-wrapper{
+  .cp-post-wrapper{
+    border: 1px solid #eee;
+    padding: 25px;
+    margin-bottom: 15px;
+    .cp-block{
+      a.cp-post-link{
+        &, &:hover, &:visited, &:link, &:focus
+        {
+          cursor: pointer;
+          text-decoration: none;
+        }
+
+        &:hover{
+          .cp-title h2{
+            color: #ef3e23;
+          }
+        }
+
+        .cp-title{
+          h2{font-size:18px; ;color: rgba(0,0,0,.87);}
+        }
+        .cp-description{
+          p{margin: 0 !important; color:#999; font-size: 14px; font-weight: 300;}
+        }
+
+
+      }
+    }
+  }
+}

@@ -10,25 +10,38 @@ class CareerPressView {
     static $paged;
     function __construct() {
         $this->paged = 1;
-	    add_action('wp_ajax_nopriv_careerpress_loadmore', array($this,'careerpress_loadmore')); //For Non-Logged in Users (Non-Privileges)
-	    add_action('wp_ajax_blog_careerpress_loadmore', array($this,'careerpress_loadmore'));//For Logged in Users
-
+	    /*add_action('wp_ajax_nopriv_careerpress_loadmore', array($this,'careerpress_loadmore'));
+	    add_action('wp_ajax_careerpress_loadmore', array($this,'careerpress_loadmore'));*/
+	    //scripts & styles loading
+	    add_action('wp_enqueue_scripts', array($this,'enque_scripts'));
     }
 
     function careerpress_loadmore(){
-        echo json_encode('check');
+        if( ! isset( $_POST['register-form-action'] )
+            || ! wp_verify_nonce( $_POST['register-form-action'], 'register_form_submit' ) ){
+            exit(json_encode(1000));
+        }else exit(json_encode('check'));
+    }
+    function enque_scripts(){
+	    wp_register_script( 'career-press-jquery', plugins_url( '/assets/jquery.min.js', __FILE__ ) );
+	    wp_register_script( 'career-press-script', plugins_url( '/assets/script.js', __FILE__ ) );
+	    wp_register_style('career-press-style', plugins_url( '/assets/stylesheet.css', __FILE__ ) );
+	    wp_enqueue_script('career-press-jquery');
+	    wp_enqueue_script('career-press-script');
+	    wp_enqueue_style('career-press-style');
+
     }
 	function get_posts() {
-		$dir = plugin_dir_url( __FILE__ ) . '/assets/career-press.js';
+		$dir = plugin_dir_url( __FILE__ ) . '/assets/script.js';
 		$count_posts = wp_count_posts('careers');
 		//echo $dir;
         $counter = $count_posts->publish;
         //echo $counter;
-		echo '<script src="' . $dir . '"></script>';
+		//echo '<script src="' . $dir . '"></script>';
 		echo '<div class="careerpress-wrapper">';
 		//$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 
-		$args = array( 'post_type' => 'careers', 'posts_per_page' => 10, 'paged' => $this->paged );
+		$args = array( 'post_type' => 'careers', 'posts_per_page' => -1);
 		$loop = new WP_Query( $args );
 		while ( $loop->have_posts() ) :
 			$loop->the_post();
@@ -40,9 +53,6 @@ class CareerPressView {
 			$counter--;
 		endwhile;
 		echo '</div>';
-		if($counter > 0){
-			$this->loadmore_btn();
-        }
 
 	}
 
@@ -50,7 +60,7 @@ class CareerPressView {
 		?>
         <div class="cp-post-wrapper">
             <div class="cp-block">
-                <a href="<?php echo $link ?>">
+                <a href="<?php echo $link ?>" class="cp-post-link">
                     <div class="cp-title">
                         <h2><?php echo $title; ?></h2>
                         <span></span>
@@ -68,10 +78,10 @@ class CareerPressView {
         $this->paged += 1;
 		?>
         <div class="career-press-btn">
-            <form method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" id="form">
+            <form method="post" action="<?php echo admin_url('admin-ajax.php'); ?>" id="form-careerpress">
                 <input type="hidden" name="next" value="<?php echo $this->paged?>">
                 <input type="hidden" name="action" value="careerpress_loadmore">
-	            <?php wp_nonce_field('careerpress_loadmore', 'careerpress-posts-loadmore'); ?>
+	            <?php wp_nonce_field('careerpress_loadmore', 'careerpress-loadmore'); ?>
                 <button type="submit" class=""  >Load More</button>
             </form>
 
