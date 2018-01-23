@@ -23,9 +23,9 @@ class CareerPressView {
         }else exit(json_encode('check'));
     }
     function enque_scripts(){
-	    wp_register_script( 'career-press-jquery', plugins_url( '/assets/jquery.min.js', __FILE__ ) );
-	    wp_register_script( 'career-press-script', plugins_url( '/assets/script.js', __FILE__ ) );
-	    wp_register_style('career-press-style', plugins_url( '/assets/stylesheet.css', __FILE__ ) );
+	    wp_register_script( 'career-press-jquery', plugins_url( '/public/jquery.min.js', __FILE__ ) );
+	    wp_register_script( 'career-press-script', plugins_url( '/public/script.js', __FILE__ ) );
+	    wp_register_style('career-press-style', plugins_url( '/public/stylesheet.css', __FILE__ ) );
 	    wp_enqueue_script('career-press-jquery');
 	    wp_enqueue_script('career-press-script');
 	    wp_enqueue_style('career-press-style');

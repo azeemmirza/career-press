@@ -17,8 +17,8 @@ License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:  career-press
 Domain Path:  /languages
 */
-require_once 'CareerPress.php';
-require_once 'CareerPressView.php';
+require_once 'includes/CareerPress.php';
+require_once 'includes/CareerPressView.php';
 if(is_admin()){
 
 }else{
